@@ -1,35 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Bell, Moon, Sun, Menu, X, Search } from "lucide-react"
+import { Bell, Moon, Sun, Menu, X } from "lucide-react"
 import { Button } from "./ui/button"
-import { Input as RadixInput } from "./ui/input" // Renaming to avoid conflict
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 
-const TailwindSearchBar = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-    console.log("Search query:", event.target.value);
-    // Implement your search logic here or pass the state up
-  };
-
-  return (
-    <div className="relative flex items-center">
-      <Search className="absolute left-3 h-5 w-5 text-gray-500 dark:text-gray-400 pointer-events-none" />
-      <RadixInput // Using the Radix UI Input component
-        type="search"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={handleSearchChange}
-        className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm dark:bg-gray-800 dark:text-gray-300"
-      />
-    </div>
-  );
-};
-
-export default function Header({ toggleDarkMode, darkMode, toggleSidebar, onLogout, onAccountClick }) {
+export default function Header({ toggleDarkMode, darkMode, toggleSidebar, onLogout,onAccountClick }) {
   const [currentDate, setCurrentDate] = useState("")
   const [currentTime, setCurrentTime] = useState("")
   const [fullName, setFullName] = useState("")
@@ -38,7 +14,7 @@ export default function Header({ toggleDarkMode, darkMode, toggleSidebar, onLogo
   const [notifications, setNotifications] = useState([])
   const [unreadCount, setUnreadCount] = useState(0)
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false)
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   useEffect(() => {
     const updateDateTime = () => {
@@ -197,12 +173,6 @@ export default function Header({ toggleDarkMode, darkMode, toggleSidebar, onLogo
         </Button>
       </div>
 
-      <div className="flex-grow flex justify-center items-center">
-        <div className="w-full max-w-md"> {/* Added a container with max-width */}
-          <TailwindSearchBar />
-        </div>
-      </div>
-
       <div className="flex items-center space-x-4">
         <div className="hidden md:block text-sm text-gray-600 dark:text-gray-300">
           <span>{currentDate}</span> - <span>{currentTime}</span>
@@ -299,9 +269,10 @@ export default function Header({ toggleDarkMode, darkMode, toggleSidebar, onLogo
           )}
         </div>
 
+        <span className="hidden md:inline text-sm font-medium text-gray-700 dark:text-gray-300">{fullName || "Student Name"} </span>
 
         <DropdownMenu open={isProfileDropdownOpen} onOpenChange={setIsProfileDropdownOpen}>
-          <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild>
             <div className="cursor-pointer relative h-8 w-8 rounded-full overflow-hidden border border-gray-200 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
               {profileImage ? (
                 <img
@@ -332,8 +303,7 @@ export default function Header({ toggleDarkMode, darkMode, toggleSidebar, onLogo
                 <p className="text-xs text-gray-500 dark:text-gray-400">Student</p>
               </div>
             </div>
-            <DropdownMenuItem className="cursor-pointer" onClick={() => { onAccountClick("myAccount"); setIsProfileDropdownOpen(false); }}> {/* Call the prop */}
-              <span>My Account</span>
+            <DropdownMenuItem className="cursor-pointer" onClick={() => { onAccountClick("myAccount"); setIsProfileDropdownOpen(false); }}> {/* Call the prop */}          <span>My Account</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer text-red-500 dark:text-red-400 focus:text-red-500 dark:focus:text-red-400" onClick={onLogout}>
               <span>Logout</span>
